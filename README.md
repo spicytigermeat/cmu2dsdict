@@ -1,6 +1,10 @@
 # cmu2dsdict
 
 ## How to Use
+Setup:
+```
+pip install -r requirements.txt
+```
 What you need:
 - custom cmu-style dictionary. All phonemes should be ready to go, properly capitalized + no extras (like tone indicators), syntax below:
 ```
