@@ -10,7 +10,7 @@ dbg = 'DEBUG: '
 def dict_loader(in_dict_path):
 	#get input dict, turn to dictionary
 	in_dict = {}
-	with open(in_dict_path, 'r') as f:
+	with open(in_dict_path, 'r', encoding='utf-8') as f:
 		for line in f:
 			split_line = line.split('  ')
 			in_dict[split_line[0]] = split_line[-1].rstrip().split(' ')
@@ -23,7 +23,7 @@ def phones_loader(phones_path):
 	#get phonemes for dict, turn into py dictionary
 	phones = {}
 	phones_list = []
-	with open(phones_path, 'r') as f:
+	with open(phones_path, 'r', encoding='utf-8') as f:
 		for line in f:
 			split_line = line.split(' ')
 			phones[split_line[0]] = split_line[-1].rstrip()
