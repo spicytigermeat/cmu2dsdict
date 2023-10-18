@@ -1,7 +1,6 @@
-import os
-import sys
 import yaml
 import argparse
+from ftfy import fix_text as fxy
 
 #this is for me cuz i'm silly teehee
 DEBUG = False
@@ -12,6 +11,7 @@ def dict_loader(in_dict_path):
 	in_dict = {}
 	with open(in_dict_path, 'r', encoding='utf-8') as f:
 		for line in f:
+			line = fxy(line)
 			split_line = line.split('  ')
 			in_dict[split_line[0]] = split_line[-1].rstrip().split(' ')
 	
@@ -25,6 +25,7 @@ def phones_loader(phones_path):
 	phones_list = []
 	with open(phones_path, 'r', encoding='utf-8') as f:
 		for line in f:
+			line = fxy(line)
 			split_line = line.split(' ')
 			phones[split_line[0]] = split_line[-1].rstrip()
 
@@ -61,7 +62,7 @@ def build_dsdict(in_dict, phones, compact_yn, output_path):
 		flow_style = False
 
 	with open(output_path, 'w', encoding='utf-8') as v:
-		yaml.dump(dsdict, v, default_flow_style=flow_style)
+		yaml.dump(dsdict, v, default_flow_style=flow_style, allow_unicode=True)
 
 	print('Dictionary exported as \"' + output_path + '\".')
 
