@@ -21,7 +21,7 @@ hh fricative
 ih vowel
 iy vowel
 jh affricate
-k vowel
+k stop
 l liquid
 m nasal
 n nasal
