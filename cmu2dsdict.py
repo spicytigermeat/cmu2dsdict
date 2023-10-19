@@ -33,7 +33,7 @@ def phones_loader(phones_path):
 
 	return phones
 
-def build_dsdict(in_dict, phones, compact_yn, output_path):
+def build_dsdict(in_dict, phones, output_path):
 
 	dsdict = {'symbols': [], 'entries': []}
 
@@ -55,18 +55,28 @@ def build_dsdict(in_dict, phones, compact_yn, output_path):
 
 	if DEBUG: print(dsdict['entries'][0])
 
-	#determine if output will be compact or not
-	if compact_yn:
-		flow_style = None
-	else:
-		flow_style = False
+	return dsdict
 
+def export_dsdict(dsdict, output_path):
+	#manually writing the yaml file to keep it readable, but also a smaller file size.
+	out_string = 'symbols:\n'
+
+	#write phone section :3
+	for i in range(len(dsdict['symbols'])):
+		out_string += '- %s\n' % (str(dsdict['symbols'][i]).replace('\'', ''))
+
+	#write words section >:3c
+	out_string += 'entries:\n'
+	for i in range(len(dsdict['entries'])):
+		out_string += '- %s\n' % (str(dsdict['entries'][i]).replace('\'', ''))
+	
+	#i do not prefer writing yaml files this way but I cannot get an export I'm happy with otherwise :(
 	with open(output_path, 'w', encoding='utf-8') as v:
-		yaml.dump(dsdict, v, default_flow_style=flow_style, allow_unicode=True)
+		v.write(out_string)
 
 	print('Dictionary exported as \"' + output_path + '\".')
-
-def main(in_dict_path, phones_path, compact_yn, output_path):
+	
+def main(in_dict_path, phones_path, output_path):
 	### main function :3
 	#load reference dictionary
 	in_dict = dict_loader(in_dict_path)
@@ -75,13 +85,14 @@ def main(in_dict_path, phones_path, compact_yn, output_path):
 	phones = phones_loader(phones_path)
 
 	#build dict
-	build_dsdict(in_dict, phones, compact_yn, output_path)
+	dsdict = build_dsdict(in_dict, phones, output_path)
+
+	export_dsdict(dsdict, output_path)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Converts any CMU-style phonetic dictionary into a dsdict.yaml for DiffSinger.')
 	parser.add_argument('-c', '--cmu', type=str, help='Input CMU-style Dictionary')
 	parser.add_argument('-p', '--phones', type=str, help='File with phoneme and description')
 	parser.add_argument('-o', '--output', type=str, default='conv_dsdict.yaml', help='What to name the output file, and where to save')
-	parser.add_argument('-cm', '--compact', action='store_true', default=False, help='Store dsdict.yaml in a smaller, more compact style.')
 	args = parser.parse_args()
-	main(args.cmu, args.phones, args.compact, args.output)
+	main(args.cmu, args.phones, args.output)
