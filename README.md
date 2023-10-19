@@ -20,6 +20,5 @@ n nasal
   
 Run the command like so:
 ```
-python cmu2dsdict.py -c {cmudict.txt} -p {phones.txt} -o "converted-dsdict.yaml" -cm
+python cmu2dsdict.py -c {cmudict.txt} -p {phones.txt} -o "converted-dsdict.yaml"
 ```
-[-cm] will export the dictionary using smaller lines, making it load a bit faster. This is recommended :)
